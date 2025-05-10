@@ -22,11 +22,21 @@ public class MainFrame extends JFrame {
         fileMenu.add(exitMenuItem);
         menuBar.add(fileMenu);
 
+        JMenu adminMenu = new JMenu("Administracija");
+        JMenuItem registerMenuItem = new JMenuItem("Registruj terapeuta");
+        registerMenuItem.addActionListener(e -> {
+            TherapistRegistrationFrame registrationFrame = new TherapistRegistrationFrame();
+            registrationFrame.setVisible(true);
+        });
+        adminMenu.add(registerMenuItem);
+        menuBar.add(adminMenu);
+
 
         JMenu viewMenu = new JMenu("Pregledi");
         JMenuItem clientsMenuItem = new JMenuItem("Klijenti");
         JMenuItem sessionsMenuItem = new JMenuItem("Seanse");
         JMenuItem paymentsMenuItem = new JMenuItem("Plaćanja");
+        JMenuItem terapeutMenuItem = new JMenuItem("Terapeuti");
 
         clientsMenuItem.addActionListener(e -> {
             ClientsFrame clientsFrame = new ClientsFrame();
@@ -43,9 +53,16 @@ public class MainFrame extends JFrame {
             paymentsFrame.setVisible(true);
         });
 
+        terapeutMenuItem.addActionListener(e -> {
+            TerapeutFrame terapeutsFrame = new TerapeutFrame();
+            terapeutsFrame.setVisible(true);
+        });
+
+
         viewMenu.add(clientsMenuItem);
         viewMenu.add(sessionsMenuItem);
         viewMenu.add(paymentsMenuItem);
+        viewMenu.add(terapeutMenuItem);
         menuBar.add(viewMenu);
 
         setJMenuBar(menuBar);

@@ -58,11 +58,18 @@ public class MainFrame extends JFrame {
             terapeutsFrame.setVisible(true);
         });
 
+        JMenuItem pastSessionsMenuItem = new JMenuItem("Održane sesije");
+        pastSessionsMenuItem.addActionListener(e -> {
+            PastSessionsFrame pastSessionsFrame = new PastSessionsFrame();
+            pastSessionsFrame.setVisible(true);
+        });
+
 
         viewMenu.add(clientsMenuItem);
         viewMenu.add(sessionsMenuItem);
         viewMenu.add(paymentsMenuItem);
         viewMenu.add(terapeutMenuItem);
+        viewMenu.add(pastSessionsMenuItem);
         menuBar.add(viewMenu);
 
         setJMenuBar(menuBar);

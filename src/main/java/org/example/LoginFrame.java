@@ -1,5 +1,7 @@
 package org.example;
 
+import org.example.database.JDBCUtils;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -60,8 +62,18 @@ public class LoginFrame extends JFrame {
         loginButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                String email = emailField.getText().trim();
+                String lozinka = new String(passwordField.getPassword()).trim();
 
-                if (emailField.getText().equals("test@test.com")) {
+                if (email.isEmpty() || lozinka.isEmpty()) {
+                    JOptionPane.showMessageDialog(LoginFrame.this,
+                            "Email i lozinka su obavezni!",
+                            "Greška",
+                            JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+
+                if (JDBCUtils.proveriTerapeuta(email, lozinka)) {
                     MainFrame mainFrame = new MainFrame();
                     mainFrame.setVisible(true);
                     dispose();

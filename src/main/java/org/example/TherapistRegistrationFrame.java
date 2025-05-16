@@ -1,23 +1,28 @@
 package org.example;
 
+import org.example.database.JDBCUtils;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 public class TherapistRegistrationFrame extends JFrame {
     public TherapistRegistrationFrame() {
+        // Postavljanje osnovnih parametara prozora
         setTitle("Registracija novog terapeuta");
         setSize(600, 500);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
+        // Kreiranje glavnog panela
         JPanel mainPanel = new JPanel(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.insets = new Insets(10, 10, 10, 10);
         gbc.fill = GridBagConstraints.HORIZONTAL;
 
-
+        // Naslov
         JLabel titleLabel = new JLabel("Registracija novog psihoterapeuta");
         titleLabel.setFont(new Font("Arial", Font.BOLD, 18));
         gbc.gridx = 0;
@@ -26,172 +31,72 @@ public class TherapistRegistrationFrame extends JFrame {
         gbc.anchor = GridBagConstraints.CENTER;
         mainPanel.add(titleLabel, gbc);
 
-
+        // Lični podaci
         gbc.gridwidth = 1;
-
-
-        JLabel personalInfoLabel = new JLabel("Lični podaci:");
-        personalInfoLabel.setFont(new Font("Arial", Font.BOLD, 14));
-        gbc.gridx = 0;
         gbc.gridy = 1;
-        gbc.gridwidth = 2;
-        mainPanel.add(personalInfoLabel, gbc);
+        mainPanel.add(new JLabel("Lični podaci:"), gbc);
 
-
-        gbc.gridwidth = 1;
-        gbc.gridx = 0;
-        gbc.gridy = 2;
-        mainPanel.add(new JLabel("Ime:"), gbc);
-
+        // Polja za unos
+        JTextField jmbgField = new JTextField(20);
         JTextField firstNameField = new JTextField(20);
-        gbc.gridx = 1;
-        gbc.gridy = 2;
-        mainPanel.add(firstNameField, gbc);
-
-
-        gbc.gridx = 0;
-        gbc.gridy = 3;
-        mainPanel.add(new JLabel("Prezime:"), gbc);
-
         JTextField lastNameField = new JTextField(20);
-        gbc.gridx = 1;
-        gbc.gridy = 3;
-        mainPanel.add(lastNameField, gbc);
-
-
-        gbc.gridx = 0;
-        gbc.gridy = 4;
-        mainPanel.add(new JLabel("Email:"), gbc);
-
-        JTextField emailField = new JTextField(20);
-        gbc.gridx = 1;
-        gbc.gridy = 4;
-        mainPanel.add(emailField, gbc);
-
-
-        gbc.gridx = 0;
-        gbc.gridy = 5;
-        mainPanel.add(new JLabel("Telefon:"), gbc);
-
+        JTextField birthDateField = new JTextField(20);
         JTextField phoneField = new JTextField(20);
-        gbc.gridx = 1;
-        gbc.gridy = 5;
-        mainPanel.add(phoneField, gbc);
-
-
-        JLabel professionalInfoLabel = new JLabel("Profesionalni podaci:");
-        professionalInfoLabel.setFont(new Font("Arial", Font.BOLD, 14));
-        gbc.gridx = 0;
-        gbc.gridy = 6;
-        gbc.gridwidth = 2;
-        mainPanel.add(professionalInfoLabel, gbc);
-
-
-        gbc.gridwidth = 1;
-        gbc.gridx = 0;
-        gbc.gridy = 7;
-        mainPanel.add(new JLabel("Specijalizacija:"), gbc);
-
-        String[] specializations = {
+        JTextField emailField = new JTextField(20);
+        JTextField certDateField = new JTextField(20);
+        JComboBox<String> specializationCombo = new JComboBox<>(new String[]{
                 "Kognitivno-bihevioralna terapija",
-                "Terapija prihvatanja i posvećenosti",
+                "Psihodinamska terapija",
                 "Humanistička terapija",
                 "Geštalt terapija",
-                "Porodična terapija",
-                "Sistemska terapija",
-                "Psihodinamska terapija",
-                "Mindfulness terapija",
-                "Eksperimentalna terapija",
-                "Somatska terapija"
-        };
-        JComboBox<String> specializationCombo = new JComboBox<>(specializations);
-        gbc.gridx = 1;
-        gbc.gridy = 7;
-        mainPanel.add(specializationCombo, gbc);
+                "Porodična terapija"
+        });
 
+        // Dodavanje polja u formular
+        addFormRow(mainPanel, gbc, "JMBG:", jmbgField, 2);
+        addFormRow(mainPanel, gbc, "Ime:", firstNameField, 3);
+        addFormRow(mainPanel, gbc, "Prezime:", lastNameField, 4);
+        addFormRow(mainPanel, gbc, "Datum rođenja (YYYY-MM-DD):", birthDateField, 5);
+        addFormRow(mainPanel, gbc, "Telefon:", phoneField, 6);
+        addFormRow(mainPanel, gbc, "Email:", emailField, 7);
+        addFormRow(mainPanel, gbc, "Datum sertifikacije (YYYY-MM-DD):", certDateField, 8);
+        addFormRow(mainPanel, gbc, "Specijalizacija:", specializationCombo, 9);
 
-        gbc.gridx = 0;
-        gbc.gridy = 8;
-        mainPanel.add(new JLabel("Datum sertifikacije:"), gbc);
-
-        JTextField certificationDateField = new JTextField(20);
-        gbc.gridx = 1;
-        gbc.gridy = 8;
-        mainPanel.add(certificationDateField, gbc);
-
-
-        JLabel credentialsLabel = new JLabel("Podaci za prijavu:");
-        credentialsLabel.setFont(new Font("Arial", Font.BOLD, 14));
-        gbc.gridx = 0;
-        gbc.gridy = 9;
-        gbc.gridwidth = 2;
-        mainPanel.add(credentialsLabel, gbc);
-
-
-        gbc.gridwidth = 1;
-        gbc.gridx = 0;
-        gbc.gridy = 10;
-        mainPanel.add(new JLabel("Korisničko ime:"), gbc);
-
-        JTextField usernameField = new JTextField(20);
-        gbc.gridx = 1;
-        gbc.gridy = 10;
-        mainPanel.add(usernameField, gbc);
-
-
-        gbc.gridx = 0;
-        gbc.gridy = 11;
-        mainPanel.add(new JLabel("Lozinka:"), gbc);
-
-        JPasswordField passwordField = new JPasswordField(20);
-        gbc.gridx = 1;
-        gbc.gridy = 11;
-        mainPanel.add(passwordField, gbc);
-
-
-        gbc.gridx = 0;
-        gbc.gridy = 12;
-        mainPanel.add(new JLabel("Potvrda lozinke:"), gbc);
-
-        JPasswordField confirmPasswordField = new JPasswordField(20);
-        gbc.gridx = 1;
-        gbc.gridy = 12;
-        mainPanel.add(confirmPasswordField, gbc);
-
-
-        JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 10));
+        // Dugmad
+        JPanel buttonPanel = new JPanel();
         JButton registerButton = new JButton("Registruj");
         JButton cancelButton = new JButton("Otkaži");
 
-        registerButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
+        registerButton.addActionListener(e -> {
+            // Validacija podataka
+            if (!validateFields(jmbgField, firstNameField, lastNameField, birthDateField,
+                    phoneField, emailField, certDateField)) {
+                return;
+            }
 
-                if (firstNameField.getText().isEmpty() || lastNameField.getText().isEmpty() ||
-                        emailField.getText().isEmpty() || usernameField.getText().isEmpty() ||
-                        passwordField.getPassword().length == 0) {
-                    JOptionPane.showMessageDialog(TherapistRegistrationFrame.this,
-                            "Sva polja su obavezna!",
-                            "Greška",
-                            JOptionPane.ERROR_MESSAGE);
-                    return;
-                }
+            // Registracija terapeuta
+            boolean success = JDBCUtils.registrujTerapeuta(
+                    jmbgField.getText(),
+                    firstNameField.getText(),
+                    lastNameField.getText(),
+                    birthDateField.getText(),
+                    phoneField.getText(),
+                    emailField.getText(),
+                    certDateField.getText(),
+                    (String) specializationCombo.getSelectedItem()
+            );
 
-                if (!new String(passwordField.getPassword()).equals(new String(confirmPasswordField.getPassword()))) {
-                    JOptionPane.showMessageDialog(TherapistRegistrationFrame.this,
-                            "Lozinke se ne podudaraju!",
-                            "Greška",
-                            JOptionPane.ERROR_MESSAGE);
-                    return;
-                }
-
-
-
-                JOptionPane.showMessageDialog(TherapistRegistrationFrame.this,
+            if (success) {
+                JOptionPane.showMessageDialog(this,
                         "Terapeut uspešno registrovan!",
                         "Uspeh",
                         JOptionPane.INFORMATION_MESSAGE);
                 dispose();
+            } else {
+                JOptionPane.showMessageDialog(this,
+                        "Greška pri registraciji terapeuta!",
+                        "Greška",
+                        JOptionPane.ERROR_MESSAGE);
             }
         });
 
@@ -200,12 +105,35 @@ public class TherapistRegistrationFrame extends JFrame {
         buttonPanel.add(registerButton);
         buttonPanel.add(cancelButton);
 
-        gbc.gridx = 0;
-        gbc.gridy = 13;
+        gbc.gridy = 10;
         gbc.gridwidth = 2;
         gbc.anchor = GridBagConstraints.CENTER;
         mainPanel.add(buttonPanel, gbc);
 
         add(mainPanel);
+    }
+
+    private void addFormRow(JPanel panel, GridBagConstraints gbc, String label, JComponent field, int row) {
+        gbc.gridy = row;
+        gbc.gridx = 0;
+        gbc.anchor = GridBagConstraints.EAST;
+        panel.add(new JLabel(label), gbc);
+
+        gbc.gridx = 1;
+        gbc.anchor = GridBagConstraints.WEST;
+        panel.add(field, gbc);
+    }
+
+    private boolean validateFields(JTextField... fields) {
+        for (JTextField field : fields) {
+            if (field.getText().trim().isEmpty()) {
+                JOptionPane.showMessageDialog(this,
+                        "Sva polja su obavezna!",
+                        "Greška",
+                        JOptionPane.ERROR_MESSAGE);
+                return false;
+            }
+        }
+        return true;
     }
 }

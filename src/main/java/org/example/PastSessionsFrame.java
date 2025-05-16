@@ -53,7 +53,7 @@ public class PastSessionsFrame extends JFrame {
         table.setRowHeight(25);
         table.getTableHeader().setFont(new Font("Arial", Font.BOLD, 14));
 
-        table.getColumnModel().getColumn(8).setPreferredWidth(300); // Šira kolona za beleške
+        table.getColumnModel().getColumn(8).setPreferredWidth(300);
 
         JScrollPane scrollPane = new JScrollPane(table);
         mainPanel.add(scrollPane, BorderLayout.CENTER);
@@ -69,10 +69,10 @@ public class PastSessionsFrame extends JFrame {
                 JOptionPane.showMessageDialog(this, "Morate selektovati sesiju iz tabele.", "Upozorenje", JOptionPane.WARNING_MESSAGE);
             } else {
                 showSessionDetails(
-                        table.getValueAt(selectedRow, 1).toString(), // Klijent
-                        table.getValueAt(selectedRow, 2).toString(), // Datum
-                        table.getValueAt(selectedRow, 4).toString(), // Tip sesije
-                        table.getValueAt(selectedRow, 8).toString()  // Beleške
+                        table.getValueAt(selectedRow, 1).toString(),
+                        table.getValueAt(selectedRow, 2).toString(),
+                        table.getValueAt(selectedRow, 4).toString(),
+                        table.getValueAt(selectedRow, 8).toString()
                 );
             }
         });
